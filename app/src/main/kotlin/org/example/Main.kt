@@ -3,6 +3,7 @@ package org.example
 import kotlinx.coroutines.runBlocking
 import org.example.api.NewsApiClient
 import org.example.api.getMostRatedNews
+import org.example.api.saveNews
 import java.time.LocalDate
 
 fun main() = runBlocking {
@@ -14,6 +15,6 @@ fun main() = runBlocking {
     val endDate = LocalDate.of(2024, 12, 31)
     val period = startDate..endDate
     val mostRatedNews = newsList.getMostRatedNews(count, period)
-    client.saveNews("allNews.csv", newsList)
-    client.saveNews("mostRatedNews.csv", mostRatedNews)
+    saveNews("app\\src\\main\\resources\\allNews.csv", newsList)
+    saveNews("app\\src\\main\\resources\\mostRatedNews.csv", mostRatedNews)
 }
