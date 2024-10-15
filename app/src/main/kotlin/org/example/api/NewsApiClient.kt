@@ -3,14 +3,20 @@ package org.example.api
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.statement.*
-import io.ktor.serialization.kotlinx.json.*
+import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.bodyAsText
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.example.dto.GetNewsResponse
 import org.example.dto.News
 import org.slf4j.LoggerFactory
-import io.ktor.client.plugins.logging.*
-import io.ktor.client.request.*
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.DEFAULT
+import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.client.request.request
+import io.ktor.client.request.url
+import io.ktor.client.request.parameter
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -24,10 +30,10 @@ private const val API_URL = "https://kudago.com/public-api/$API_VERSION/news/?"
 private val json = Json {
     ignoreUnknownKeys = true
 }
-
 open class NewsApiClient {
 
     suspend fun getNews(count: Int = 100, pagination: Int = 1): List<News> {
+        val startTime = System.currentTimeMillis()
 
         val client = HttpClient(CIO) {
             install(Logging) {
@@ -70,6 +76,8 @@ open class NewsApiClient {
             return emptyList()
         } finally {
             client.close()
+            val endTime = System.currentTimeMillis()
+            logger.info("Initialization took: ${endTime - startTime} ms")
         }
     }
 }

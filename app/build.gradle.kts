@@ -23,6 +23,10 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.4.11")
     implementation("io.ktor:ktor-client-logging:3.0.0-rc-1")
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.5")
+    runtimeOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+    implementation("org.slf4j:slf4j-api:2.1.0-alpha1")
+    testImplementation("io.mockk:mockk:1.13.3")
+
 
 }
 
